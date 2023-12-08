@@ -4,7 +4,7 @@ import 'dart:math' as math;
 class AppFloatingActionButton extends StatefulWidget {
   final bool? initialOpen;
   final double distance;
-  final List<Widget> children;
+  final List<IconButton> children;
   const AppFloatingActionButton(
       {super.key,
       this.initialOpen,
@@ -106,7 +106,12 @@ class _AppFloatingActionButtonState extends State<AppFloatingActionButton>
           directionInDegrees: angleInDegrees,
           maxDistance: widget.distance,
           progress: _expandAnimation,
-          child: widget.children[i],
+          child: IconButton(
+            onPressed: () {
+              widget.children[i].onPressed?.call();
+            },
+            icon: widget.children[i].icon,
+          ),
         ),
       );
     }

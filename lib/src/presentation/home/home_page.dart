@@ -1,5 +1,8 @@
 import 'package:comanda_top/src/presentation/home/cubit/home_cubit.dart';
-import 'package:comanda_top/src/presentation/widgets/float_action_button/app_float_action_button_widget.dart';
+import 'package:comanda_top/src/shared/widgets/app_button_widget.dart';
+import 'package:comanda_top/src/shared/widgets/app_dropdown_widget.dart';
+import 'package:comanda_top/src/shared/widgets/app_text_form_field_widget.dart';
+import 'package:comanda_top/src/shared/widgets/float_action_button/app_float_action_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -37,11 +40,69 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                showDragHandle: true,
+                builder: (context) {
+                  TextEditingController nomeController =
+                      TextEditingController();
+                  TextEditingController statusController =
+                      TextEditingController();
+                  return Padding(
+                    padding: EdgeInsets.fromLTRB(8.0, 0, 8,
+                        MediaQuery.of(context).viewInsets.bottom + 8),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const Text('Nome da mesa:'),
+                        AppTextFormField(
+                          controller: nomeController,
+                        ),
+                        const Text('Situação:'),
+                        AppDropdownSelect(
+                          controller: statusController,
+                          items: const ['disponível', 'ocupada'],
+                          selectedItem: 'disponível',
+                          onChanged: (selected) {
+                            print(selected);
+                          },
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        BlocBuilder<HomeCubit, HomeState>(
+                          bloc: cubit,
+                          builder: (context, state) {
+                            return AppButton(
+                              label: 'Salvar',
+                              loading: state is HomeAddTableLoading,
+                              onPressed: () {
+                                cubit.saveTable(
+                                    nome: nomeController.text,
+                                    status: statusController.text);
+                                Navigator.pop(context);
+                              },
+                            );
+                          },
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
             icon: const Icon(Icons.table_bar),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Modular.to.pushNamed('/menu');
+            },
             icon: const Icon(Icons.book),
           )
         ],
@@ -67,11 +128,11 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   runAlignment: WrapAlignment.center,
                   children: state.tables
-                      .map((e) => ElevatedButton(
+                      .map((e) => AppButton(
                           onPressed: () {
                             Modular.to.pushNamed('/table/${e.id}');
                           },
-                          child: Text('Mesa ${e.nome}')))
+                          label: 'Mesa ${e.nome}'))
                       .toList(),
                 ),
               ),

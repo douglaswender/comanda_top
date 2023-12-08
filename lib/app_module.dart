@@ -1,7 +1,13 @@
+import 'package:comanda_top/src/data/datasources/product_datasource.dart';
 import 'package:comanda_top/src/data/datasources/table_datasource.dart';
+import 'package:comanda_top/src/data/repositories/product_repository_impl.dart';
 import 'package:comanda_top/src/data/repositories/table_repository_impl.dart';
+import 'package:comanda_top/src/domain/repositories/product_repository.dart';
 import 'package:comanda_top/src/domain/repositories/table_repository.dart';
+import 'package:comanda_top/src/domain/usecases/get_products_usecase.dart';
 import 'package:comanda_top/src/domain/usecases/get_tables_usecase.dart';
+import 'package:comanda_top/src/domain/usecases/save_product_usecase.dart';
+import 'package:comanda_top/src/domain/usecases/save_table_usecase.dart';
 import 'package:comanda_top/src/presentation/home/home_page.dart';
 import 'package:comanda_top/src/presentation/menu/menu_page.dart';
 import 'package:comanda_top/src/presentation/table/table_page.dart';
@@ -17,7 +23,12 @@ class AppModule extends Module {
     i.addInstance<DatabaseHelper>(databaseHelper);
     i.addLazySingleton<TableDatasource>(TableDatasource.new);
     i.addLazySingleton<TableRepository>(TableRepositoryImpl.new);
+    i.addLazySingleton<ProductDatasource>(ProductDatasource.new);
+    i.addLazySingleton<ProductRepository>(ProductRepositoryImpl.new);
     i.addLazySingleton(GetTablesUsecase.new);
+    i.addLazySingleton(SaveProductUsecase.new);
+    i.addLazySingleton(GetProductsUsecase.new);
+    i.addLazySingleton(SaveTableUsecase.new);
   }
 
   @override
@@ -32,7 +43,7 @@ class AppModule extends Module {
     );
     r.child(
       '/menu',
-      child: (context) => const MenuPage(),
+      child: (context) => MenuPage(),
     );
   }
 }

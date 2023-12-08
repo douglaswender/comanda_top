@@ -12,4 +12,8 @@ final class TableDatasource {
         .map((e) => TableModel.fromMap(e))
         .toList();
   }
+
+  Future<int> addTable({required TableModel table}) async {
+    return await _databaseHelper.insert(row: table.toMap(), table: 'mesa');
+  }
 }

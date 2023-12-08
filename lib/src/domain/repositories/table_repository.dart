@@ -4,4 +4,5 @@ import 'package:dartz/dartz.dart';
 
 abstract interface class TableRepository {
   Future<Either<Failure, List<TableEntity>>> getTables();
+  Future<Either<Failure, int>> addTable({required TableEntity table});
 }

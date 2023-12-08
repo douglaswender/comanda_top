@@ -8,7 +8,7 @@ final class DatabaseHelperImpl implements DatabaseHelper {
   String get databaseName => 'comanda_top.db';
 
   @override
-  int get databaseVersion => 1;
+  int get databaseVersion => 2;
 
   late Database db;
 
@@ -21,32 +21,31 @@ final class DatabaseHelperImpl implements DatabaseHelper {
   Future onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE mesa (
-          id INTEGER PRIMARY KEY,
+          id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
           nome TEXT NOT NULL,
           status TEXT DEFAULT 'disponivel'
-      );
-      CREATE TABLE pedido (
-          id INTEGER PRIMARY KEY,
+      )''');
+    await db.execute('''CREATE TABLE pedido (
+          id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
           mesa_id INTEGER,
           status TEXT DEFAULT 'aberto',
           total REAL DEFAULT 0,
           FOREIGN KEY (mesa_id) REFERENCES mesa (id)
-      );
-      CREATE TABLE item_menu (
-          id INTEGER PRIMARY KEY,
+      )''');
+    await db.execute('''CREATE TABLE item_menu (
+          id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
           nome TEXT NOT NULL,
           preco REAL NOT NULL
-      );
-      CREATE TABLE pedido_item (
-          id INTEGER PRIMARY KEY,
+      )''');
+    await db.execute('''CREATE TABLE pedido_item (
+          id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
           pedido_id INTEGER,
           item_id INTEGER,
           quantidade INTEGER DEFAULT 1,
           subtotal REAL DEFAULT 0,
           FOREIGN KEY (pedido_id) REFERENCES pedido (id),
           FOREIGN KEY (item_id) REFERENCES item_menu (id)
-      );
-      ''');
+      )''');
   }
 
   // Helper methods

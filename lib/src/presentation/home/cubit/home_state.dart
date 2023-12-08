@@ -6,6 +6,8 @@ final class HomeInitial extends HomeState {}
 
 final class HomeLoading extends HomeState {}
 
+final class HomeAddTableLoading extends HomeState {}
+
 final class HomeLoadedTables extends HomeState {
   final List<TableEntity> tables;
 
