@@ -1,40 +1,42 @@
 import 'dart:convert';
 
+import 'package:flutter/widgets.dart';
+
 class Demo {
-  final int id;
+  final int? quantidade;
   final String nome;
-  final String preco;
+  final double subtotal;
   Demo({
-    required this.id,
+    this.quantidade,
     required this.nome,
-    required this.preco,
+    required this.subtotal,
   });
 
   Demo copyWith({
-    int? id,
+    ValueGetter<int?>? quantidade,
     String? nome,
-    String? preco,
+    double? subtotal,
   }) {
     return Demo(
-      id: id ?? this.id,
+      quantidade: quantidade?.call() ?? this.quantidade,
       nome: nome ?? this.nome,
-      preco: preco ?? this.preco,
+      subtotal: subtotal ?? this.subtotal,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      'quantidade': quantidade,
       'nome': nome,
-      'preco': preco,
+      'subtotal': subtotal,
     };
   }
 
   factory Demo.fromMap(Map<String, dynamic> map) {
     return Demo(
-      id: map['id']?.toInt() ?? 0,
+      quantidade: map['quantidade']?.toInt(),
       nome: map['nome'] ?? '',
-      preco: map['preco'] ?? '',
+      subtotal: map['subtotal']?.toDouble() ?? 0.0,
     );
   }
 
@@ -43,18 +45,19 @@ class Demo {
   factory Demo.fromJson(String source) => Demo.fromMap(json.decode(source));
 
   @override
-  String toString() => 'Demo(id: $id, nome: $nome, preco: $preco)';
+  String toString() =>
+      'Demo(quantidade: $quantidade, nome: $nome, subtotal: $subtotal)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
     return other is Demo &&
-        other.id == id &&
+        other.quantidade == quantidade &&
         other.nome == nome &&
-        other.preco == preco;
+        other.subtotal == subtotal;
   }
 
   @override
-  int get hashCode => id.hashCode ^ nome.hashCode ^ preco.hashCode;
+  int get hashCode => quantidade.hashCode ^ nome.hashCode ^ subtotal.hashCode;
 }

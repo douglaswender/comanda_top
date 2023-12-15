@@ -4,6 +4,7 @@ import 'package:comanda_top/src/data/repositories/product_repository_impl.dart';
 import 'package:comanda_top/src/data/repositories/table_repository_impl.dart';
 import 'package:comanda_top/src/domain/repositories/product_repository.dart';
 import 'package:comanda_top/src/domain/repositories/table_repository.dart';
+import 'package:comanda_top/src/domain/usecases/get_order_by_table_usecase.dart';
 import 'package:comanda_top/src/domain/usecases/get_products_usecase.dart';
 import 'package:comanda_top/src/domain/usecases/get_tables_usecase.dart';
 import 'package:comanda_top/src/domain/usecases/save_product_usecase.dart';
@@ -29,21 +30,22 @@ class AppModule extends Module {
     i.addLazySingleton(SaveProductUsecase.new);
     i.addLazySingleton(GetProductsUsecase.new);
     i.addLazySingleton(SaveTableUsecase.new);
+    i.addLazySingleton(GetOrderByTableUsecase.new);
   }
 
   @override
   void routes(RouteManager r) {
     r.child(
       '/',
-      child: (context) => HomePage(),
+      child: (context) => const HomePage(),
     );
     r.child(
       '/table/:id',
-      child: (context) => TablePage(mesaId: r.args.params['id']),
+      child: (context) => TablePage(mesaId: int.parse(r.args.params['id'])),
     );
     r.child(
       '/menu',
-      child: (context) => MenuPage(),
+      child: (context) => const MenuPage(),
     );
   }
 }

@@ -66,9 +66,7 @@ class _HomePageState extends State<HomePage> {
                           controller: statusController,
                           items: const ['disponível', 'ocupada'],
                           selectedItem: 'disponível',
-                          onChanged: (selected) {
-                            print(selected);
-                          },
+                          onChanged: (selected) {},
                         ),
                         const SizedBox(
                           height: 8,

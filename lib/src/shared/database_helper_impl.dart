@@ -116,4 +116,9 @@ final class DatabaseHelperImpl implements DatabaseHelper {
       whereArgs: [id],
     );
   }
+
+  @override
+  Future<List<Map<String, Object?>>> sqlQuery({required String sql}) async {
+    return await db.rawQuery(sql);
+  }
 }

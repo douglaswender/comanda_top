@@ -10,4 +10,5 @@ abstract interface class DatabaseHelper {
   Future<int> update(
       {required Map<String, dynamic> row, required String table});
   Future<int> delete({required int id, required String table});
+  Future<List<Map<String, Object?>>> sqlQuery({required String sql});
 }
